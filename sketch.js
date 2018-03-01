@@ -1,3 +1,11 @@
+var grid;
+var cols = 30;
+var rows = 16;
+var w = 30;
+
+var score = 0;
+var totalBees = 60;
+
 function make2DArray(cols, rows) {
 	var arr = new Array(cols);
 	for (var i = 0; i < arr.length; i++) {
@@ -6,18 +14,15 @@ function make2DArray(cols, rows) {
 	return arr;
 }
 
-var grid;
-var cols = 20;
-var rows = 20;
-var w = 20;
-
-var totalBees = 10;
 
 function setup() {
-	createCanvas(201, 201)
-	cols = floor(width / w);
-	rows = floor(height / w)
-	grid = make2DArray(cols, rows)
+	cols = 30;
+	rows = 16;
+	createCanvas(w*cols+1, w*rows+1)
+	canvas.style = "position:absolute; width: 90%; margin-left: 5%; margin-top: 20%;";
+	grid = make2DArray(cols, rows);
+	strokeWeight(2);
+	
 	for (var i = 0; i < cols; i++) {
 		for (var j = 0; j < rows; j++) {
 			grid[i][j] = new Cell(i, j, w);
@@ -60,10 +65,16 @@ function mousePressed() {
 	for (var i = 0; i < cols; i++) {
 		for (var j = 0; j < rows; j++) {
 			if (grid[i][j].contains(mouseX, mouseY)) {
-				grid[i][j].reveal();
-				
-				if (grid[i][j].bee) {
-					gameOver();
+				if (mouseButton == LEFT) {
+					grid[i][j].reveal();
+					if (grid[i][j].bee) {
+						gameOver();
+					}
+				} else if (mouseButton == RIGHT) {
+					grid[i][j].flag();
+					if (score == totalBees) {
+						gameWon();
+					}
 				}
 			}
 		}

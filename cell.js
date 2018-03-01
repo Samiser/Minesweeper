@@ -8,6 +8,7 @@ function Cell(i, j, w) {
 	
 	this.bee = false;
 	this.revealed = false;
+	this.flagged = false;
 }
 
 Cell.prototype.show = function() {
@@ -22,11 +23,15 @@ Cell.prototype.show = function() {
 			fill(200);
 			rect(this.x, this.y, this.w, this.w);
 			if (this.neighborCount != 0) {
+				textSize(w/1.5);
 				textAlign(CENTER);
 				fill(0);
-				text(this.neighborCount, this.x + this.w * 0.5, this.y + this.w - 5);
+				text(this.neighborCount, this.x + this.w * 0.5, this.y + this.w - this.w/4);
 			}
 		}
+	} else if (this.flagged) {
+		fill(0);
+		rect(this.x, this.y, this.w/4, this.w);
 	}
 }
 
@@ -57,10 +62,21 @@ Cell.prototype.contains = function(x, y) {
 }
 
 Cell.prototype.reveal = function() {
-	this.revealed = true;
-	if (this.neighborCount == 0) {
-		this.floodFill();
+	if (!this.flagged) {
+		this.revealed = true;
+		if (this.neighborCount == 0) {
+			this.floodFill();
+		}
 	}
+}
+
+Cell.prototype.flag = function() {
+	if (!this.flagged && this.bee) {
+		score++;
+	} else if (this.flagged && this.bee) {
+		score--
+	}
+	this.flagged = !this.flagged;
 }
 
 Cell.prototype.floodFill = function() {
