@@ -16,8 +16,6 @@ function make2DArray(cols, rows) {
 
 
 function setup() {
-	cols = 30;
-	rows = 16;
 	createCanvas(w*cols+1, w*rows+1)
 	canvas.style = "position:absolute; width: 90%; margin-left: 5%; margin-top: 20%;";
 	grid = make2DArray(cols, rows);
@@ -82,7 +80,7 @@ function mousePressed() {
 }
 
 function draw() {
-	background(255);
+	background(100);
 	for (var i = 0; i < cols; i++) {
 		for (var j = 0; j < rows; j++) {
 			grid[i][j].show();

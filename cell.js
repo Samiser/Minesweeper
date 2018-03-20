@@ -6,6 +6,8 @@ function Cell(i, j, w) {
 	this.w = w;
 	this.neighborCount = 0;
 	
+	this.image = loadImage('Assets/Minesweeper.png');
+	
 	this.bee = false;
 	this.revealed = false;
 	this.flagged = false;
@@ -17,21 +19,31 @@ Cell.prototype.show = function() {
 	rect(this.x, this.y, this.w, this.w);
 	if (this.revealed) {
 		if (this.bee) {
-			fill(127);
-			ellipse(this.x + this.w * 0.5, this.y + this.w * 0.5, this.w * 0.5);
+			image(this.image, this.x, this.y, this.w, this.w, 600, 0, 300, 300);
 		} else {
-			fill(200);
+			fill(180);
 			rect(this.x, this.y, this.w, this.w);
 			if (this.neighborCount != 0) {
+				if (this.neighborCount == 1) {
+					fill(0, 0, 255);
+				} else if (this.neighborCount == 2) {
+					fill(0, 255, 0);
+				} else if (this.neighborCount == 3) {
+					fill(255, 0, 0); 
+				} else if (this.neighborCount == 4) {
+					fill(0, 0, 200);
+				}
 				textSize(w/1.5);
+				textStyle(BOLD);
 				textAlign(CENTER);
-				fill(0);
+				noStroke();
 				text(this.neighborCount, this.x + this.w * 0.5, this.y + this.w - this.w/4);
 			}
 		}
 	} else if (this.flagged) {
-		fill(0);
-		rect(this.x, this.y, this.w/4, this.w);
+		image(this.image, this.x, this.y, this.w, this.w, 300, 0, 300, 300);
+	} else {
+		image(this.image, this.x, this.y, this.w, this.w, 0, 0, 300, 300);
 	}
 }
 
